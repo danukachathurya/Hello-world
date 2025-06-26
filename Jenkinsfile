@@ -11,13 +11,13 @@ pipeline {
 
         stage('clean') {
             steps {
-                sh "mvn clean -f hello-world-sample-project-lolc"
+                sh "mvn clean"
             }
         }
 
         stage('install') {
             steps {
-                sh "mvn install -f hello-world-sample-project-lolc"
+                sh "mvn install -DskipTests"
             }
         }
 
