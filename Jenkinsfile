@@ -1,19 +1,11 @@
 pipeline {
 
-    agent {
-      kubernetes {
-        defaultContainer 'maven'
-        // yaml libraryResource('supportPod.yaml')
-        yamlFile 'supportPod.yaml'
-      }
-    }
+    agent any
     
     stages {
-        stage('git repo') {
+        stage('Checkout') {
             steps {
-                sh "ls -a"
-                sh "rm -rf hello-world-sample-project-lolc"
-                sh "git clone https://github.com/isurupathumherath/hello-world-sample-project-lolc.git"
+                checkout scm
             }
         }
 
@@ -31,23 +23,23 @@ pipeline {
 
         stage('package') {
             steps {
-                sh "mvn package"
+                sh "mvn package -DskipTests"
             }
         }
 
-        stage('Build Docker Image with Kaniko') {
-            steps {
-                container('kaniko') {
-                    script {
+        // stage('Build Docker Image with Kaniko') {
+        //     steps {
+        //         container('kaniko') {
+        //             script {
 
-                        // Run Kaniko Build Command
-                        sh "pwd"
-                        sh "ls -a"
-                        sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=azdevopscourse.azurecr.io/sample-java-project:latest" 
-                    }
-                }
-            }
-        }
+        //                 // Run Kaniko Build Command
+        //                 sh "pwd"
+        //                 sh "ls -a"
+        //                 sh "/kaniko/executor --dockerfile `pwd`/Dockerfile --context `pwd` --destination=azdevopscourse.azurecr.io/sample-java-project:latest" 
+        //             }
+        //         }
+        //     }
+        // }
 
     }
 }
