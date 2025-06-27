@@ -30,7 +30,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh "docker build -t java-test-app:latest ."
+                    sh "sudo docker build -t java-test-app:latest ."
                 }
             }
         }
